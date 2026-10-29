@@ -27,6 +27,8 @@ jobs:
         with:
           node-version: '22'
       - run: npm install --no-save playwright-core@1.55.0
+      - name: Unit tests
+        run: npm test
       - name: Locate Chrome
         run: |
           CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
