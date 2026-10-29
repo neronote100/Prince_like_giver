@@ -11,6 +11,7 @@ on:
       - scripts/render-review-board.mjs
       - scripts/verify-mobile-board.mjs
       - scripts/prepare-worker-candidates.mjs
+      - scripts/verify-worker-dashboard.mjs
       - src/worker.mjs
       - src/dashboard.mjs
       - tests/worker-like.test.mjs
@@ -41,12 +42,18 @@ jobs:
           echo "CHROME_BIN=$CHROME_BIN" >> "$GITHUB_ENV"
       - name: Verify 15 candidate rows on smartphone screens
         run: node scripts/verify-mobile-board.mjs
+      - name: Verify real Worker dashboard with mock actions
+        run: node scripts/verify-worker-dashboard.mjs
       - name: Collect public candidates in authenticated context
         env:
           NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
         run: node scripts/candidates.mjs
       - name: Render manual review board
         run: node scripts/render-review-board.mjs
+      - name: Prepare Worker candidate list
+        run: node scripts/prepare-worker-candidates.mjs
+      - name: Verify Worker bundle (dry run)
+        run: npx --yes wrangler@4 deploy --dry-run
       - name: Check Cloudflare credentials
         id: cf
         env:
@@ -60,9 +67,6 @@ jobs:
             echo "ready=false" >> "$GITHUB_OUTPUT"
             echo "Cloudflare Worker deployment disabled: required secrets are missing."
           fi
-      - name: Prepare secure Worker candidate list
-        if: steps.cf.outputs.ready == 'true'
-        run: node scripts/prepare-worker-candidates.mjs
       - name: Deploy one-click review Worker
         if: steps.cf.outputs.ready == 'true'
         env:
@@ -83,5 +87,6 @@ jobs:
             .tmp/candidates.json
             .tmp/candidate-review.html
             .tmp/mobile-15-preview.png
+            .tmp/worker-like-preview.png
           if-no-files-found: error
           retention-days: 1
