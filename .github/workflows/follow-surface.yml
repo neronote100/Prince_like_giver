@@ -18,6 +18,8 @@ jobs:
         with:
           node-version: '22'
       - run: npm install --no-save playwright-core@1.55.0
+      - name: Syntax check
+        run: node --check scripts/follower-surface-smoke.mjs
       - name: Resolve Chrome
         run: |
           CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
