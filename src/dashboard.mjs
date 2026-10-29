@@ -46,7 +46,7 @@ export default [
 ' }',
 ' function el(tag,className,text){const e=document.createElement(tag);if(className)e.className=className;',
 '   if(text!==undefined)e.textContent=text;return e;}',
-' function noteKey(url){const m=url.match(/\/n\/(n[a-f0-9]{8,32})$/i);return m&&m[1];}',
+' function noteKey(url){try{const parts=new URL(url).pathname.split("/");return parts.length===4 && parts[2]==="n" && /^n[a-f0-9]{8,32}$/i.test(parts[3])?parts[3]:null;}catch{return null;}}',
 ' async function load(){',
 '   const result=await api("/api/candidates");',
 '   const data=result.candidates;rows.replaceChildren();',
