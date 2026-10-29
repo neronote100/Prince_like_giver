@@ -6,6 +6,19 @@ const OWNER = 'nero_notelover';
 const ROOT = 'https://note.com';
 const NAME = /^[a-z0-9_-]{1,64}$/i;
 const RECENT_MS = 30 * 86400000;
+const MIN_FOLLOW_GAP = 10;
+const MIN_FOLLOW_PERCENT = 15;
+
+// Avoid float rounding at exactly 15%. Missing values must be rejected.
+export function qualifiesByFollowRatio(followingRaw, followersRaw) {
+  if (followingRaw === null || followersRaw === null ||
+      followingRaw === undefined || followersRaw === undefined) return false;
+  const following = Number(followingRaw), followers = Number(followersRaw);
+  return Number.isSafeInteger(following) && Number.isSafeInteger(followers) &&
+    following >= 0 && followers >= 0 && following > followers &&
+    following - followers >= MIN_FOLLOW_GAP &&
+    following * 100 >= followers * (100 + MIN_FOLLOW_PERCENT);
+}
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export function evaluateProfile(profile, articlePayload, now = Date.now()) {
@@ -15,9 +28,7 @@ export function evaluateProfile(profile, articlePayload, now = Date.now()) {
   if (p.isFollowing !== false || p.isFollowed !== false)
     return {reason: 'existing_relationship_or_unknown'};
   const following = Number(p.followingCount), followers = Number(p.followerCount);
-  if (!Number.isFinite(following) || !Number.isFinite(followers) ||
-      following <= followers || following - followers < 10 ||
-      following < followers * 1.2) return {reason:'insufficient_follow_gap'};
+  if (!qualifiesByFollowRatio(following, followers)) return {reason:'insufficient_follow_gap'};
   const articles = articlePayload?.data?.contents;
   if (!Array.isArray(articles)) return {reason:'unknown_articles'};
   const recent = articles.filter(a => {
@@ -102,7 +113,7 @@ export async function collect({rawCookie, chromePath, maxProfiles=90, maxCandida
           continue;
         }
         const f=Number(p?.followingCount),r=Number(p?.followerCount);
-        if(!Number.isFinite(f)||!Number.isFinite(r)||f<=r||f-r<10||f<1.2*r){
+        if(!qualifiesByFollowRatio(p?.followingCount,p?.followerCount)){
           counts.insufficient_follow_gap++;continue;
         }
         const articlePayload=await read('/api/v2/creators/'+username+
@@ -127,7 +138,15 @@ if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href)
   collect({rawCookie:process.env.NOTE_SESSION_COOKIE}).then(async result=>{
     await mkdir('.tmp',{recursive:true});
     await writeFile('.tmp/candidates.json',JSON.stringify(result,null,2)+'\n','utf8');
-    console.log('CANDIDATE_LIST '+JSON.stringify(result));
+    // Public repository Actions logs must not expose the complete target list.
+    console.log('CANDIDATE_SUMMARY '+JSON.stringify({
+      owner:result.owner,generatedAt:result.generatedAt,
+      candidates:result.candidates.length,scanned:result.summary.scanned,
+      skippedExistingRelationship:result.summary.existing_relationship_or_unknown,
+      skippedLiked:result.summary.already_liked,skippedGap:result.summary.insufficient_follow_gap,
+      skippedUnknownLike:result.summary.unknown_like_state,
+      rateLimited:result.rateLimited,errors:result.summary.errors
+    }));
   }).catch(error=>{
     console.error('Candidate collection failed: '+String(error?.message).slice(0,200));
     process.exitCode=1;

@@ -1,5 +1,7 @@
 name: Candidate list (read-only)
 on:
+  schedule:
+    - cron: '17 * * * *'
   workflow_dispatch:
   push:
     branches: [main]
@@ -16,6 +18,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   collect:
+    if: vars.DISABLE_CANDIDATE_DISCOVERY != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
