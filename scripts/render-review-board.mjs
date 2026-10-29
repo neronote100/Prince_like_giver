@@ -94,7 +94,7 @@ export function renderBoard(report) {
     '<div class="extras"><details><summary>使い方・記録のリセット</summary>',
     '<p>「記事↗」でnoteを開いて記事を読んでください。スキはnote側で押します。',
     'このページの ✓ はスキ後の記録、× は既にスキ済み・見送りの管理用です。',
-    'どちらのボタンもnoteへスキを送信しません。</p>',
+    'この画面はスキを送信しません。✓/×は管理用の記録ボタンです。</p>',
     '<p id="updated"></p>',
     '<button type="button" id="reset">15人の記録をリセット</button>',
     '</details></div>',
