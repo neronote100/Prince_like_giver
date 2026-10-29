@@ -17,7 +17,35 @@
 - 画面でnote記事を開き、読んで手動でスキした後、「noteでスキ後に記録」を押す
 - すでにスキ済み、または興味がない人は「スキ済み・見送り」で次へ進む
 
-**スキの自動送信、ランダム間隔での連続スキ、フォローの自動操作は行いません。**
+**スキの無人自動送信、ランダム間隔での連続スキ、フォローの自動操作は行いません。**
+
+## Web画面から1件ずつスキする（Cloudflare Worker）
+
+既存のZIP版 \`candidate-review.html\` は引き続き記録専用です。実際の「♡ スキ」ボタンを使う場合は、**別途Cloudflare Workerを配備したURL**を開きます。GitHub Actionsが候補を集め、Cloudflare Workerが認証済みの1件送信のみを担当します。
+
+### 初回設定
+
+GitHub リポジトリの **Settings → Secrets and variables → Actions → New repository secret** で次を登録してください。
+
+| Secret | 用途 |
+| --- | --- |
+| \`NOTE_SESSION_COOKIE\` | 既存のnoteログインCookie（登録済みなら変更不要） |
+| \`CLOUDFLARE_API_TOKEN\` | Cloudflare Workerのデプロイ権限を持つAPIトークン |
+| \`CLOUDFLARE_ACCOUNT_ID\` | CloudflareアカウントID |
+| \`DASHBOARD_TOKEN\` | 24文字以上のランダムな管理パスワード。画面からのスキ送信を許可する本人認証用 |
+
+**Cookieや各Secretの値は、GitHubのコード・Issue・チャットに貼らないでください。** \`DASHBOARD_TOKEN\` は第三者に推測されない乱数文字列を推奨します。
+
+すべて設定すると、\`Actions → Candidate list (read-only) → Run workflow\` の実行時および毎時17分ごろの自動更新時に、\`prince-like-review\` というWorkerがデプロイされます。URLはその実行ログの \`Deploy one-click review Worker\` に表示されます。Cloudflare WorkersのURLはアカウントごとに異なるため、ここでは固定しません。
+
+画面を開いたら \`DASHBOARD_TOKEN\` の値でログインします。本人が**各行の「♡ スキ」を1回押すと、その記事1件だけ**サーバーが送信を試みます。すでにスキ済みならPOSTを送信せず \`♥ 済\` と表示します。通信状態が曖昧なら自動再送せず \`要確認\` で止めます。スキ済み判定や送信にはnoteの**非公式API**を使用しており、note側の仕様変更や制限により動作しなくなる可能性があります。
+
+- **自動スキ・一括スキは行いません。** 選別・候補の定期更新のみ自動です。
+- スキ送信には公開ZIP版のHTMLを使えません。WebページとAPIが同じCloudflare WorkerのURLで提供されます。
+- GitHubの公開ログにSecretは出しません。候補詳細をブラウザに渡すには管理パスワードが必要です。
+- デプロイ用Secretが揃わない場合、候補抽出ジョブだけ成功し、Workerデプロイはスキップされます。
+- Workerの送信テストはモックを使い、候補者にテストのスキを送信しません。
+- パスワードを変更するときはGitHub Secret \`DASHBOARD_TOKEN\` を更新し、手動でWorkflowを再実行してください。
 
 ## 自動定期実行
 
