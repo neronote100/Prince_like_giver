@@ -40,7 +40,7 @@ async function inspect(page, route) {
               firstItemKeys: rows.length && rows[0] && typeof rows[0] === 'object' ? Object.keys(rows[0]).slice(0, 30) : [],
               rowCount: rows.length,
             };
-          }).catch(() => ({ path: url.pathname, parseError: true }))));
+          }).catch(() => ({ path: url.pathname, parseError: true })));
         }
       }
     } catch {}
