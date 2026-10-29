@@ -51,6 +51,7 @@ try {
     assert.ok(dimensions.lastBottom<=height+1,'15 rows must fit '+width+'x'+height+': '+JSON.stringify(dimensions));
     assert.ok(dimensions.scrollWidth<=width+1,'no horizontal scroll '+width+'x'+height);
     await page.locator('.like').first().tap();
+    await page.waitForFunction(() => document.querySelector('.like')?.textContent === '♥ 済', null, {timeout:5000});
     assert.equal(await page.locator('.like').first().innerText(),'♥ 済');
     assert.equal(await page.locator('.like').first().isDisabled(),true);
     assert.equal(likes,1,'one deliberate tap sends one request');
