@@ -11,7 +11,7 @@ export function sessionValue(raw) {
   return value;
 }
 
-export async function verifySession({ rawCookie, chromePath, launch = chromium.launch } = {}) {
+export async function verifySession({ rawCookie, chromePath, launch = (options) => chromium.launch(options) } = {}) {
   const value = sessionValue(rawCookie);
   const browser = await launch({
     headless: true,
