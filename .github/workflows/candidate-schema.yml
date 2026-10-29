@@ -1,0 +1,29 @@
+name: Inspect candidate data schema
+on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/inspect-candidate-schema.mjs
+      - .github/workflows/candidate-schema.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm install --no-save playwright-core@1.55.0
+      - run: node --check scripts/inspect-candidate-schema.mjs
+      - name: Locate Chrome
+        run: |
+          CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          test -n "$CHROME_BIN" || exit 1
+          echo "CHROME_BIN=$CHROME_BIN" >> "$GITHUB_ENV"
+      - name: Inspect read-only schema
+        env:
+          NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
+        run: node scripts/inspect-candidate-schema.mjs
