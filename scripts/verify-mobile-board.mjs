@@ -45,10 +45,10 @@ try {
     const link=page.locator('#items .open').first();
     assert.ok((await link.getAttribute('href')).startsWith('https://note.com/'));
     await page.locator('#items .done-btn').first().tap();
-    assert.equal(await page.locator('#count').innerText(),'✓ 1  × 0  残 14');
+    assert.equal((await page.locator('#count').innerText()).replace(/\s+/g,' '),'✓ 1 × 0 残 14');
     assert.equal(await page.locator('#items .done-btn').first().getAttribute('aria-pressed'),'true');
     await page.locator('#items .skip-btn').first().tap();
-    assert.equal(await page.locator('#count').innerText(),'✓ 0  × 1  残 14');
+    assert.equal((await page.locator('#count').innerText()).replace(/\s+/g,' '),'✓ 0 × 1 残 14');
     assert.equal(await page.locator('#items .item').count(),15,'Rows do not disappear after marking');
     if(width===390){
       await page.locator('#items .skip-btn').first().tap();
