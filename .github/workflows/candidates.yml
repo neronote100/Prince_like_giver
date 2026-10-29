@@ -10,6 +10,11 @@ on:
       - tests/candidates.test.mjs
       - scripts/render-review-board.mjs
       - scripts/verify-mobile-board.mjs
+      - scripts/prepare-worker-candidates.mjs
+      - src/worker.mjs
+      - src/dashboard.mjs
+      - tests/worker-like.test.mjs
+      - wrangler.toml
       - tests/review-board.test.mjs
       - .github/workflows/candidates.yml
 permissions:
@@ -42,6 +47,33 @@ jobs:
         run: node scripts/candidates.mjs
       - name: Render manual review board
         run: node scripts/render-review-board.mjs
+      - name: Check Cloudflare credentials
+        id: cf
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DASHBOARD_TOKEN: ${{ secrets.DASHBOARD_TOKEN }}
+        run: |
+          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ] && [ "${#DASHBOARD_TOKEN}" -ge 24 ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Cloudflare Worker deployment disabled: required secrets are missing."
+          fi
+      - name: Prepare secure Worker candidate list
+        if: steps.cf.outputs.ready == 'true'
+        run: node scripts/prepare-worker-candidates.mjs
+      - name: Deploy one-click review Worker
+        if: steps.cf.outputs.ready == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          DASHBOARD_TOKEN: ${{ secrets.DASHBOARD_TOKEN }}
+          NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
+        run: |
+          npx --yes wrangler@4 deploy
+          printf '%s' "$DASHBOARD_TOKEN" | npx --yes wrangler@4 secret put DASHBOARD_TOKEN --name prince-like-review
+          printf '%s' "$NOTE_SESSION_COOKIE" | npx --yes wrangler@4 secret put NOTE_SESSION_COOKIE --name prince-like-review
       - name: Upload review files (1 day)
         if: success()
         uses: actions/upload-artifact@v4
