@@ -6,6 +6,8 @@ on:
     paths:
       - scripts/candidates.mjs
       - tests/candidates.test.mjs
+      - scripts/render-review-board.mjs
+      - tests/review-board.test.mjs
       - .github/workflows/candidates.yml
 permissions:
   contents: read
@@ -32,3 +34,15 @@ jobs:
         env:
           NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
         run: node scripts/candidates.mjs
+      - name: Render manual review board
+        run: node scripts/render-review-board.mjs
+      - name: Upload review files (1 day)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prince-candidate-review
+          path: |
+            .tmp/candidates.json
+            .tmp/candidate-review.html
+          if-no-files-found: error
+          retention-days: 1
