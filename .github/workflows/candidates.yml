@@ -1,0 +1,34 @@
+name: Candidate list (read-only)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/candidates.mjs
+      - tests/candidates.test.mjs
+      - .github/workflows/candidates.yml
+permissions:
+  contents: read
+concurrency:
+  group: note-candidates
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm install --no-save playwright-core@1.55.0
+      - run: node --check scripts/candidates.mjs
+      - run: npm test
+      - name: Find Chrome
+        run: |
+          CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          test -n "$CHROME_BIN" || exit 1
+          echo "CHROME_BIN=$CHROME_BIN" >> "$GITHUB_ENV"
+      - name: Collect public candidates in authenticated context
+        env:
+          NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
+        run: node scripts/candidates.mjs
