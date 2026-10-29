@@ -69,7 +69,7 @@ export async function collect({rawCookie, chromePath, maxProfiles=90, maxCandida
     const owner=me?.data?.user ?? me?.data ?? me?.user ?? me;
     if(owner?.urlname !== OWNER || !/^[a-f0-9]{24,40}$/i.test(String(owner?.key??'')))
       throw Error('Owner session invalid');
-    const own=followingNames(await read('/api/v3/users/'+owner.key+'/followings?page=1&per=40'));
+    const own=followingNames(await read('/api/v3/users/'+owner.key+'/followings?page=1&per=20'));
     const seeds=own.slice(0,12);
     const pool=new Set();
     const counts={scanned:0,already_liked:0,existing_relationship_or_unknown:0,
@@ -82,7 +82,7 @@ export async function collect({rawCookie, chromePath, maxProfiles=90, maxCandida
       try{
         const p=(await read('/api/v2/creators/'+seed))?.data;
         if(!/^[a-f0-9]{24,40}$/i.test(String(p?.key??'')))continue;
-        const graph=followingNames(await read('/api/v3/users/'+p.key+'/followers?page=1&per=30'));
+        const graph=followingNames(await read('/api/v3/users/'+p.key+'/followers?page=1&per=20'));
         for(const name of graph)pool.add(name);
       }catch(e){
         counts.errors++;
