@@ -58,15 +58,15 @@ async function likedState(env,key) {
  if(typeof state!=='boolean')throw Error('Like status is unavailable');
  return state;
 }
-export async function handleApi(req,env) {
+export async function handleApi(req,env,allowlist=allow) {
  const url=new URL(req.url);
  if(!env.DASHBOARD_TOKEN || !env.NOTE_SESSION_COOKIE)return error('Secrets are not configured',503);
  if(!await authorized(req.headers.get('Authorization'),env.DASHBOARD_TOKEN))return error('認証が必要です',401);
  if(url.pathname==='/api/candidates' && req.method==='GET')
-   return json({ok:true,candidates:[...allow.values()].slice(0,15)});
+   return json({ok:true,candidates:[...allowlist.values()].slice(0,15)});
  if(url.pathname==='/api/status' && req.method==='GET'){
    const key=url.searchParams.get('key');
-   if(!KEY.test(String(key))||!allow.has(key))return error('候補外の記事です',404);
+   if(!KEY.test(String(key))||!allowlist.has(key))return error('候補外の記事です',404);
    try{await ownerCheck(env);return json({ok:true,liked:await likedState(env,key)});}
    catch(e){return error('状態を確認できません',e.status===429?429:502);}
  }
@@ -76,7 +76,7 @@ export async function handleApi(req,env) {
    if(Number(req.headers.get('Content-Length')||0)>1024)return error('Too large',413);
    let input;try{input=await req.json();}catch{return error('Invalid JSON',400);}
    const key=String(input?.key||'');
-   if(!KEY.test(key)||!allow.has(key))return error('候補外の記事です',404);
+   if(!KEY.test(key)||!allowlist.has(key))return error('候補外の記事です',404);
    if(inflight.has(key))return error('処理中です',409);
    inflight.add(key);
    try {
@@ -84,7 +84,7 @@ export async function handleApi(req,env) {
      if(await likedState(env,key))return json({ok:true,liked:true,alreadyLiked:true});
      const res=await note(env,'/api/v3/notes/'+key+'/likes',{
        method:'POST',headers:{'Content-Type':'application/json',
-         'Referer':allow.get(key).articleUrl},body:'{}'
+         'Referer':allowlist.get(key).articleUrl},body:'{}'
      });
      if([401,403,429].includes(res.status))return error('note側の制限で送信できません',res.status);
      if(res.status!==201)return error('noteへのスキ送信が確認できません',502);
