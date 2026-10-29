@@ -1,3 +1,4 @@
+import { mkdir, writeFile } from 'node:fs/promises';
 import { chromium } from 'playwright-core';
 import { sessionValue } from './auth-smoke.mjs';
 
@@ -123,7 +124,9 @@ export async function collect({rawCookie, chromePath, maxProfiles=90, maxCandida
 }
 
 if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href){
-  collect({rawCookie:process.env.NOTE_SESSION_COOKIE}).then(result=>{
+  collect({rawCookie:process.env.NOTE_SESSION_COOKIE}).then(async result=>{
+    await mkdir('.tmp',{recursive:true});
+    await writeFile('.tmp/candidates.json',JSON.stringify(result,null,2)+'\n','utf8');
     console.log('CANDIDATE_LIST '+JSON.stringify(result));
   }).catch(error=>{
     console.error('Candidate collection failed: '+String(error?.message).slice(0,200));
