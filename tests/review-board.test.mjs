@@ -26,3 +26,32 @@ test('board does not render untrusted markup and has no API mutation',()=>{
   assert.ok(!html.includes('fetch('));
   assert.ok(html.includes('noopener noreferrer'));
 });
+
+
+test('15 rows are represented in a compact smartphone-first layout',()=>{
+  const candidates=Array.from({length:15},(_,i)=>({
+    ...row,user:'person'+i,name:'書き手'+i,
+    profileUrl:'https://note.com/person'+i,
+    articleUrl:'https://note.com/person'+i+'/n/n123456789abc'
+  }));
+  const html=renderBoard({generatedAt:'2026-10-30',candidates});
+  assert.ok(html.includes('--row-height: clamp(34px'));
+  assert.ok(html.includes('grid-template-columns:22px minmax(0,1fr) 53px 34px 34px'));
+  assert.ok(html.includes('記事↗'));
+  assert.ok(html.includes('スキ済み・見送りの記録'));
+  assert.ok(html.includes('noteでスキした後に記録'));
+  assert.ok(html.includes('items.length'));
+  assert.ok(html.includes('prince-like-review-status-v3'));
+  assert.ok(!html.includes('fetch('));
+  assert.equal(reviewItems({candidates}).length,15);
+});
+
+test('same author is not presented twice, and list stops at fifteen',()=>{
+  const many=Array.from({length:20},(_,i)=>({
+    ...row,user:'writer'+i,
+    profileUrl:'https://note.com/writer'+i,
+    articleUrl:'https://note.com/writer'+i+'/n/n123456789abc'
+  }));
+  assert.equal(reviewItems({candidates:many}).length,15);
+  assert.equal(reviewItems({candidates:[many[0],many[0]]}).length,1);
+});

@@ -9,6 +9,7 @@ on:
       - scripts/candidates.mjs
       - tests/candidates.test.mjs
       - scripts/render-review-board.mjs
+      - scripts/verify-mobile-board.mjs
       - tests/review-board.test.mjs
       - .github/workflows/candidates.yml
 permissions:
@@ -33,6 +34,8 @@ jobs:
           CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
           test -n "$CHROME_BIN" || exit 1
           echo "CHROME_BIN=$CHROME_BIN" >> "$GITHUB_ENV"
+      - name: Verify 15 candidate rows on smartphone screens
+        run: node scripts/verify-mobile-board.mjs
       - name: Collect public candidates in authenticated context
         env:
           NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
@@ -47,5 +50,6 @@ jobs:
           path: |
             .tmp/candidates.json
             .tmp/candidate-review.html
+            .tmp/mobile-15-preview.png
           if-no-files-found: error
           retention-days: 1
