@@ -17,9 +17,12 @@ try {
   for(const [width,height] of [[390,844],[360,740],[320,600]]){
     const context=await browser.newContext({viewport:{width,height},isMobile:true,hasTouch:true});
     const page=await context.newPage();
-    let likes=0,errors=[];
+    let likes=0,errors=[],events=[];
     page.on('pageerror',e=>errors.push(e.message));
-    await page.route('https://dashboard.example/**',async route=>{
+    page.on('console',m=>events.push('console '+m.text()));
+    page.on('requestfailed',r=>events.push('failed '+r.url()+' '+r.failure()?.errorText));
+    page.on('request',r=>events.push('request '+r.url()));
+    await page.route('**/*',async route=>{
       const u=new URL(route.request().url());
       if(u.pathname==='/')return route.fulfill({status:200,contentType:'text/html',body:html});
       if(u.pathname==='/api/candidates')return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,candidates:demo})});
@@ -35,7 +38,10 @@ try {
     await page.goto('https://dashboard.example/');
     await page.locator('#token').fill('example-dashboard-passphrase');
     await page.locator('#connect').tap();
-    await page.locator('.row').first().waitFor();
+    await page.locator('.row').first().waitFor({timeout:8000}).catch(async()=>{
+      const body=(await page.locator('body').innerText()).slice(0,600);
+      throw Error('Dashboard rows unavailable: '+JSON.stringify({body,errors,events:events.slice(-12)}));
+    });
     assert.equal(await page.locator('.row').count(),15);
     const dimensions=await page.evaluate(()=>{
       const a=document.querySelectorAll('.row');
