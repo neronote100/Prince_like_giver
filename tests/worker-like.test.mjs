@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { Script } from 'node:vm';
 import { handleApi } from '../src/worker.mjs';
 import dashboard from '../src/dashboard.mjs';
 
@@ -85,4 +86,11 @@ test('unknown like state refuses to send and does not guess success',async()=>{
 test('no actions when secrets missing',async()=>{
   const res=await handleApi(valid('/api/like','POST',{key}),{},allow);
   assert.equal(res.status,503);
+});
+
+
+test('generated dashboard inline JavaScript must parse',()=>{
+  const script=dashboard.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+  assert.ok(script && script.length>100);
+  assert.doesNotThrow(()=>new Script(script));
 });
