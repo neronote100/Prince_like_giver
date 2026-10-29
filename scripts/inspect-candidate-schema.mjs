@@ -23,7 +23,7 @@ try {
         if(u.hostname==='note.com'&&new RegExp('/api/v3/users/[^/]+/'+kind+'$').test(u.pathname)){
           const payload=await response.json(), data=payload?.data;
           const entry=Array.isArray(data?.follows)?data.follows[0]:null;
-          captured={httpStatus:response.status(),keys:keys(data),
+          captured={httpStatus:response.status(),page:u.searchParams.get('page'),per:u.searchParams.get('per'),keys:keys(data),
             totalCount:data?.total_count ?? null,returnedCount:data?.follows?.length ?? null,
             firstKeys:keys(entry),nested:keys(entry?.user ?? entry?.follower ?? entry?.following),
             sampleShape: Object.fromEntries(keys(entry).slice(0,8).map(k=>[k,typeof entry?.[k]]))};
@@ -38,8 +38,17 @@ try {
   }
   const profile=await context.request.get('https://note.com/api/v2/creators/nero_notelover',{timeout:15000});
   const p=profile.ok()?(await profile.json())?.data:null;
+  record.ownerKeyMatchesProfileKey=(user?.key===p?.key);
   record.profile={status:profile.status(),keys:keys(p),
     relationships:keys(p).filter(k=>/follow|relat|like/i.test(k)).map(k=>({key:k,type:typeof p[k]}))};
+  record.directGraph=[];
+  for (const params of ['page=1&per=20','page=1&per=40','page=0&per=20']) {
+    const key=p?.key ?? user?.key;
+    const res=await context.request.get('https://note.com/api/v3/users/'+key+'/followings?'+params,{timeout:15000});
+    const payload=res.ok()?await res.json():null;
+    record.directGraph.push({params,status:res.status(),count:payload?.data?.follows?.length ?? null,
+      totalCount:payload?.data?.total_count ?? null});
+  }
   const notes=await context.request.get('https://note.com/api/v2/creators/nero_notelover/contents?kind=note&disabled_pinned=true&page=1',{timeout:15000});
   const d=notes.ok()?(await notes.json())?.data:null;
   record.articles={status:notes.status(),keys:keys(d),count:d?.contents?.length??null,
