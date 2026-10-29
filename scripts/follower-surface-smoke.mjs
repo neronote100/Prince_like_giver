@@ -20,12 +20,28 @@ function profileNames(links) {
 
 async function inspect(page, route) {
   const statuses = new Map();
+  const shapeJobs = [];
   const observer = response => {
     try {
       const url = new URL(response.url());
       if (url.hostname === 'note.com' && url.pathname.startsWith('/api/')) {
         // Never log URL query strings, bodies or headers.
         statuses.set(url.pathname, response.status());
+        if (/^\/api\/v3\/users\/[a-z0-9]+\/(followers|followings)$/.test(url.pathname)) {
+          shapeJobs.push(response.json().then(payload => {
+            const data = payload?.data ?? payload;
+            const rows = Array.isArray(data) ? data : Array.isArray(data?.users) ? data.users :
+              Array.isArray(data?.contents) ? data.contents : Array.isArray(data?.items) ? data.items : [];
+            return {
+              path: url.pathname,
+              queryKeys: [...url.searchParams.keys()],
+              topKeys: Object.keys(payload ?? {}).slice(0, 20),
+              dataKeys: Array.isArray(data) ? ['array'] : Object.keys(data ?? {}).slice(0, 20),
+              firstItemKeys: rows.length && rows[0] && typeof rows[0] === 'object' ? Object.keys(rows[0]).slice(0, 30) : [],
+              rowCount: rows.length,
+            };
+          }).catch(() => ({ path: url.pathname, parseError: true }))));
+        }
       }
     } catch {}
   };
@@ -41,12 +57,14 @@ async function inspect(page, route) {
       title: document.title,
     }));
     const names = profileNames(result.links);
+    const shapes = await Promise.all(shapeJobs);
     return {
       route,
       httpStatus: res?.status() || null,
       contentLength: result.contentLength,
       linkedProfileCount: names.length,
       apiResponses: [...statuses].map(([path, status]) => ({ path, status })).slice(0, 30),
+      apiShapes: shapes,
     };
   } finally {
     page.off('response', observer);
