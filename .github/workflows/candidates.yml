@@ -1,4 +1,4 @@
-name: Candidate list (read-only)
+name: Note patrol (one like per run)
 on:
   schedule:
     - cron: '17 * * * *'
@@ -7,6 +7,14 @@ on:
     branches: [main]
     paths:
       - scripts/candidates.mjs
+      - scripts/auth-smoke.mjs
+      - scripts/auto-like.mjs
+      - src/auto-like.mjs
+      - src/github-like-state.mjs
+      - src/note-action-client.mjs
+      - tests/auto-like.test.mjs
+      - tests/github-like-state.test.mjs
+      - tests/note-action-client.test.mjs
       - tests/candidates.test.mjs
       - scripts/render-review-board.mjs
       - scripts/verify-mobile-board.mjs
@@ -25,14 +33,16 @@ concurrency:
   cancel-in-progress: false
 jobs:
   collect:
-    if: vars.DISABLE_CANDIDATE_DISCOVERY != 'true'
+    if: github.ref == 'refs/heads/main' && vars.DISABLE_CANDIDATE_DISCOVERY != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: {node-version: '22'}
-      - run: npm install --no-save playwright-core@1.55.0
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with: {node-version: '24.19.0'}
+      - run: npm install --no-save --ignore-scripts --no-audit --no-fund playwright-core@1.55.0
       - run: node --check scripts/candidates.mjs
       - run: npm test
       - name: Find Chrome
@@ -80,7 +90,7 @@ jobs:
           printf '%s' "$NOTE_SESSION_COOKIE" | npx --yes wrangler@4 secret put NOTE_SESSION_COOKIE --name prince-like-review
       - name: Upload review files (1 day)
         if: success()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: prince-candidate-review
           path: |
@@ -90,3 +100,37 @@ jobs:
             .tmp/worker-like-preview.png
           if-no-files-found: error
           retention-days: 1
+  auto-like:
+    needs: collect
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      vars.DISABLE_AUTO_LIKES != 'true' &&
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with: {node-version: '24.19.0'}
+      - run: npm install --no-save --ignore-scripts --no-audit --no-fund playwright-core@1.55.0
+      - name: Find Chrome
+        run: |
+          CHROME_BIN="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || true)"
+          test -n "$CHROME_BIN" || exit 1
+          echo "CHROME_BIN=$CHROME_BIN" >> "$GITHUB_ENV"
+      - name: Download this run's candidates
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: prince-candidate-review
+          path: .tmp
+      - name: Send at most one eligible like and persist its outcome
+        env:
+          NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/auto-like.mjs
+

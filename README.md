@@ -1,92 +1,77 @@
 # Prince Like Giver 🌙
 
-王子（note ID: `nero_notelover`）の候補記事を読み取り専用で調査するツールです。
+王子（note ID: `nero_notelover`）の条件に合う記事をGitHub Actionsで巡回し、**1回の実行につき1件まで、1日最大15件まで**スキを送るツールです。1日の区切りは日本時間です。Cloudflareの画面やスマホのログイン操作を使わず、登録済みの `NOTE_SESSION_COOKIE` を使います。
 
-## できること
+## 自動巡回とスキ
 
-- GitHub Actionsの `NOTE_SESSION_COOKIE` でログイン済みのnote情報を**読み取る**
-- 候補者のフォロー数／フォロワー数・フォロー関係・最近30日の投稿を確認
-- **フォロー数がフォロワー数より15%以上多い**（既存の最低10人差も維持）場合だけ採用
-- `isLiked=true` の最近の記事がある人を**候補から除外**
-- 不確かなフォロー関係・スキ状態は採用せず、読取結果を安全側で判定
-- 候補15件までの**スマホ1画面向けコンパクトなレビュー画面** `candidate-review.html` を生成
-- 1行に「ユーザー名／記事タイトル／記事↗／✓／×」を並べ、端末の画面高に合わせて行間を自動調整
-- ✓で「noteでスキした後の記録」、×で「スキ済み・見送り」を登録。同じボタンをもう一度押すと取り消し
-- 候補を記録・見送りしても一覧の位置は移動せず、15件をそのまま見渡せる
-- `mobile-15-preview.png` をArtifactへ保存。スマホ3サイズ（390×844、360×740、320×600）で15行の表示を自動検証
-- 画面でnote記事を開き、読んで手動でスキした後、「noteでスキ後に記録」を押す
-- すでにスキ済み、または興味がない人は「スキ済み・見送り」で次へ進む
+GitHub Actionsの **Note patrol (one like per run)** が、毎時17分ごろに候補を取得し、その後 `auto-like` ジョブで送信します。手動実行と、対象ファイルが `main` に反映されたときも同じ処理を実行します。GitHub側の混雑によって定期実行が遅れる場合があります。
 
-**スキの無人自動送信、ランダム間隔での連続スキ、フォローの自動操作は行いません。**
+候補の条件は次のとおりです。
 
-## Web画面から1件ずつスキする（Cloudflare Worker）
+- フォロー数がフォロワー数より15%以上多く、10人以上の差がある
+- 既にフォロー・被フォローの関係がなく、その状態を確認できる
+- 最近30日以内の記事があり、最近の記事にスキ済みのものがない
+- スキ状態などの情報が不明な人は採用しない
+- 1回に調べた候補15人までから選び、送信直前にも本人アカウント・条件・記事・スキ状態を確認する
 
-既存のZIP版 \`candidate-review.html\` は引き続き記録専用です。実際の「♡ スキ」ボタンを使う場合は、**別途Cloudflare Workerを配備したURL**を開きます。GitHub Actionsが候補を集め、Cloudflare Workerが認証済みの1件送信のみを担当します。
+1回の実行で送るスキは最大1件です。日次上限の15件には、送信を試みて結果を確認できなかった分も含めます。大量送信、一括スキ、フォローやコメントの自動送信は行いません。
 
-### 初回設定
+送信前に `automation/note-like-state` ブランチへ試行記録を書き、その保存を確認できた場合だけnoteへ送ります。同じ記事や同じ実行IDに対する再送はしません。通信結果が不明な記事は記録を残して止め、自動再送しません。送信先が401・403・429を返した場合も再送せず、24時間停止します。保存処理や認証を確認できないときも、その実行の送信を止めます。
 
-GitHub リポジトリの **Settings → Secrets and variables → Actions → New repository secret** で次を登録してください。
+候補取得と送信は同じワークフローの直列処理です。前の実行が終わる前に別の送信を重ねません。ブランチやPR上の **Patrol tests (no note actions)** はSecretを使わないテストのみを実行します。
+
+## 設定と停止
+
+`Settings → Secrets and variables → Actions` に `NOTE_SESSION_COOKIE` を登録します。**登録済みで候補取得が成功している場合は、変更不要です。** 値をコード・Issue・チャットへ貼る必要はありません。
+
+記録の保存には、その実行にGitHubが発行する `GITHUB_TOKEN` を使います。自動スキのジョブだけに `contents: write` を与え、個人用アクセストークンやCloudflareのSecretを追加する必要はありません。
+
+止める場合は、ActionsのRepository variablesに次を設定します。
+
+| 変数 | 値 | 動作 |
+| --- | --- | --- |
+| `DISABLE_AUTO_LIKES` | `true` | 候補取得を続け、スキの自動送信だけ停止 |
+| `DISABLE_CANDIDATE_DISCOVERY` | `true` | 候補取得と、それに続く自動送信を停止 |
+
+`false` または未設定で再開します。すぐに実行する場合は、**Actions → Note patrol (one like per run) → Run workflow** を使います。
+
+## 結果を見る
+
+Actionsの実行画面で、候補取得と送信結果の概要を確認できます。通常ログには、候補の具体的な名前・記事タイトル・URLや認証Cookieを出しません。
+
+候補一覧は、実行のArtifact **prince-candidate-review** に1日保存します。
+
+- `candidates.json`：候補15人までの情報
+- `candidate-review.html`：スマホ向けのコンパクトなレビュー画面
+- `mobile-15-preview.png`、`worker-like-preview.png`：ダミーデータによる画面検証画像
+
+HTMLの「記事↗」から記事を開けます。✓/×は手動の管理記録で、noteのスキ実績とは同期しません。ブラウザの `localStorage` に保存され、別のブラウザへの引き継ぎは保証しません。
+
+このリポジトリは公開されているため、Artifact内の候補情報や、状態ブランチの記事ID・実行ID・日時・結果は第三者が閲覧できる可能性があります。状態ブランチへ候補者名・記事タイトル・Cookieは保存しません。CookieをArtifactや生成HTMLへ埋め込む処理もありません。
+
+## 任意のWebレビュー画面
+
+既存のCloudflare Workerは、画面から本人が1件ずつスキするための別の選択肢です。GitHub Actionsによる自動送信には、このWorkerの配置は必要ありません。
+
+使う場合だけ、次のActions Secretを追加します。
 
 | Secret | 用途 |
 | --- | --- |
-| \`NOTE_SESSION_COOKIE\` | 既存のnoteログインCookie（登録済みなら変更不要） |
-| \`CLOUDFLARE_API_TOKEN\` | Cloudflare Workerのデプロイ権限を持つAPIトークン |
-| \`CLOUDFLARE_ACCOUNT_ID\` | CloudflareアカウントID |
-| \`DASHBOARD_TOKEN\` | 24文字以上のランダムな管理パスワード。画面からのスキ送信を許可する本人認証用 |
+| `CLOUDFLARE_API_TOKEN` | Workerのデプロイ権限を持つAPIトークン |
+| `CLOUDFLARE_ACCOUNT_ID` | CloudflareアカウントID |
+| `DASHBOARD_TOKEN` | 24文字以上のランダムな管理パスワード |
 
-**Cookieや各Secretの値は、GitHubのコード・Issue・チャットに貼らないでください。** \`DASHBOARD_TOKEN\` は第三者に推測されない乱数文字列を推奨します。
+Secretが揃うと、巡回時に `prince-like-review` Workerも配置します。足りない場合はWorker配置だけをスキップします。画面は `DASHBOARD_TOKEN` で認証し、各行の「♡ スキ」で1件だけ送信します。公開ZIP版のHTMLは記録専用です。
 
-すべて設定すると、\`Actions → Candidate list (read-only) → Run workflow\` の実行時および毎時17分ごろの自動更新時に、\`prince-like-review\` というWorkerがデプロイされます。URLはその実行ログの \`Deploy one-click review Worker\` に表示されます。Cloudflare WorkersのURLはアカウントごとに異なるため、ここでは固定しません。
+## 制約と開発
 
-画面を開いたら \`DASHBOARD_TOKEN\` の値でログインします。本人が**各行の「♡ スキ」を1回押すと、その記事1件だけ**サーバーが送信を試みます。すでにスキ済みならPOSTを送信せず \`♥ 済\` と表示します。通信状態が曖昧なら自動再送せず \`要確認\` で止めます。スキ済み判定や送信にはnoteの**非公式API**を使用しており、note側の仕様変更や制限により動作しなくなる可能性があります。
+候補者は本人のフォロー先を起点に見つけた一部で、note全体を網羅しません。noteの非公式APIを使っているため、note側の仕様や制限によって取得・送信できなくなる場合があります。制限を避けるための再試行やランダム間隔による連続送信は行いません。
 
-- **自動スキ・一括スキは行いません。** 選別・候補の定期更新のみ自動です。
-- スキ送信には公開ZIP版のHTMLを使えません。WebページとAPIが同じCloudflare WorkerのURLで提供されます。
-- GitHubの公開ログにSecretは出しません。候補詳細をブラウザに渡すには管理パスワードが必要です。
-- デプロイ用Secretが揃わない場合、候補抽出ジョブだけ成功し、Workerデプロイはスキップされます。
-- Workerの送信テストはモックを使い、候補者にテストのスキを送信しません。
-- パスワードを変更するときはGitHub Secret \`DASHBOARD_TOKEN\` を更新し、手動でWorkflowを再実行してください。
-
-## 自動定期実行
-
-- 毎時17分ごろにGitHub Actionsの `Candidate list (read-only)` を自動起動します（GitHub側の混雑で遅れる場合があります）。
-- 毎回noteのログイン状態でフォロー関係・投稿日時・`isLiked` を再確認し、スキ済みや既に関係のある候補を除外します。
-- 候補の具体的な名前やURLを通常のActionsログに出さず、件数と除外理由だけ記録します。
-- 候補の詳細は最大1日保持するActions Artifact `prince-candidate-review` に保存します。リポジトリ本体へ候補データをcommitしません。
-- 自動停止する場合はActionsのRepository variablesに `DISABLE_CANDIDATE_DISCOVERY=true` を登録します。falseか未設定で再開します。
-- GitHub ActionsのCronは30秒単位ではありません。**本構成ではスキ送信を自動実行しません。**
-
-## 使い方
-
-1. GitHubリポジトリの **Settings → Secrets and variables → Actions** に `NOTE_SESSION_COOKIE` を登録する。値をコードやIssueに貼り付けない。
-2. 以後は毎時17分に自動実行されます。すぐに確認したい場合は **Actions → Candidate list (read-only) → Run workflow** を実行。
-3. 実行成功後、該当Runの **Artifacts → prince-candidate-review** を取得。
-4. 展開した `candidate-review.html` をブラウザで開く。
-5. 1行ごとの **記事↗** をタップし、記事を読んでnote側でスキを押す。その後、一覧の **✓** で記録する。すでにスキ済み・見送りは **×**。再タップで記録を取り消せる。
-6. スマホでの見た目は同じArtifactの `mobile-15-preview.png`（ダミーデータ）で確認できる。
-
-ブラウザの記録はユーザー単位で `localStorage` に保存されます。同じブラウザ・同じファイルURL以外への引き継ぎは保証しません。記録はnoteの実際のスキ状態と同期されず、ボタンを押すだけでスキは付きません。
-
-## 安全性と制約
-
-- 候補者はログイン済みアカウントのフォロー先を起点として発見した一部です。全noteユーザーを網羅していません。
-- 最近の記事を確認した時点の `isLiked` の値を使います。過去すべてのスキ履歴を照会できるとは限りません。
-- 認証失敗・HTTP 401/403/429では読取を停止し、無制限な再試行はしません。
-- 対象データには他のクリエイターの公開アカウント名・記事タイトルが含まれます。通常ログでは個人別結果を表示しませんが、**公開リポジトリのGitHub Actions Artifactは第三者が閲覧できる可能性があります。秘匿が必要な場合はリポジトリ自体を非公開にしてください。**
-- 認証CookieはActions Secretとして実行時のみ利用し、生成HTMLに埋め込みません。
-- Artifactsの保持は**1日**です。すでにダウンロードしたファイルは手元に残ります。
-- Webページの ✓/× は**管理用の状態記録のみ**です。noteのスキ実績とは同期されません。
-- 小さい画面や文字拡大・アクセシビリティ設定によっては15行を収めるためのスクロールが必要になります。
-- note公式の短時間大量スキへの制限を回避するためのツールではありません。
-
-## 開発・テスト
-
-Node.js 22以上。
+開発用のテストは、実際の記事へスキを送らずに実行します。
 
 ```sh
 npm install --no-save playwright-core@1.55.0
 npm test
-node --check scripts/candidates.mjs
 ```
 
-認証検証は `Verify note session`、フォロー情報の診断は `Probe note follow surface`、候補抽出は `Candidate list (read-only)` Workflowで確認できます。
+ActionsではNode.js 24.19.0を使います。認証検証の **Verify note session**、フォロー情報を調べる **Probe note follow surface** も利用できます。

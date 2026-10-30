@@ -1,5 +1,4 @@
 import { mkdir, writeFile } from 'node:fs/promises';
-import { chromium } from 'playwright-core';
 import { sessionValue } from './auth-smoke.mjs';
 
 const OWNER = 'nero_notelover';
@@ -62,6 +61,7 @@ function followingNames(payload) {
 }
 
 export async function collect({rawCookie, chromePath, maxProfiles=90, maxCandidates=15}={}) {
+  const { chromium } = await import('playwright-core');
   const browser=await chromium.launch({headless:true,executablePath:chromePath || '/usr/bin/google-chrome'});
   try {
     const context=await browser.newContext({locale:'ja-JP',timezoneId:'Asia/Tokyo'});
@@ -135,7 +135,7 @@ export async function collect({rawCookie, chromePath, maxProfiles=90, maxCandida
 }
 
 if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href){
-  collect({rawCookie:process.env.NOTE_SESSION_COOKIE}).then(async result=>{
+  collect({rawCookie:process.env.NOTE_SESSION_COOKIE,chromePath:process.env.CHROME_BIN}).then(async result=>{
     await mkdir('.tmp',{recursive:true});
     await writeFile('.tmp/candidates.json',JSON.stringify(result,null,2)+'\n','utf8');
     // Public repository Actions logs must not expose the complete target list.
@@ -152,3 +152,4 @@ if(process.argv[1] && import.meta.url===new URL('file://'+process.argv[1]).href)
     process.exitCode=1;
   });
 }
+

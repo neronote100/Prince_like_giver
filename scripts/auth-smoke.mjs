@@ -1,5 +1,3 @@
-import { chromium } from 'playwright-core';
-
 const EXPECTED_ACCOUNT = 'nero_notelover';
 
 export function sessionValue(raw) {
@@ -11,8 +9,12 @@ export function sessionValue(raw) {
   return value;
 }
 
-export async function verifySession({ rawCookie, chromePath, launch = (options) => chromium.launch(options) } = {}) {
+export async function verifySession({ rawCookie, chromePath, launch } = {}) {
   const value = sessionValue(rawCookie);
+  if (!launch) {
+    const { chromium } = await import('playwright-core');
+    launch = options => chromium.launch(options);
+  }
   const browser = await launch({
     headless: true,
     executablePath: chromePath || '/usr/bin/google-chrome',
@@ -40,3 +42,4 @@ if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).
   verifySession({ rawCookie: process.env.NOTE_SESSION_COOKIE, chromePath: process.env.CHROME_BIN })
     .catch(error => { console.error('Auth smoke FAILED: ' + error.message); process.exitCode = 1; });
 }
+
