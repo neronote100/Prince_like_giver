@@ -91,7 +91,8 @@ test('an attempt is durably published in its own branch before final status is u
   const f = fixture(), value = marker();
   const first = await f.store.write(value, null);
   assert.equal(first, f.head);
-  assert.equal(f.commits.get(first).parents[0].sha, f.main);
+  assert.deepEqual(f.commits.get(first).parents, []);
+  assert.ok(!f.calls.some(call => call.path === '/git/ref/heads/main'));
   assert.deepEqual(await f.store.read(), { revision: first, value });
   assert.deepEqual([...f.trees.values()][0].map(x => x.path), ['note-likes.json']);
   const final = structuredClone(value);

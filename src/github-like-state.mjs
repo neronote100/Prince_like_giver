@@ -135,7 +135,6 @@ export class GitHubLikeState {
     const bytes = Buffer.from(JSON.stringify(clean) + '\n', 'utf8');
     if (bytes.length > MAX_BYTES) fail('LIKE_STATE_INVALID');
     if (await this.#ref() !== expectedRevision) fail('LIKE_STATE_CONFLICT');
-    const parent = expectedRevision ?? await this.#ref('main');
     const blob = await this.#request('/git/blobs', { method: 'POST', body: { encoding: 'base64', content: bytes.toString('base64') } });
     if (blob.sha !== gitBlobSha(bytes)) fail('LIKE_STATE_INVALID');
     const tree = await this.#request('/git/trees', { method: 'POST', body: {
@@ -143,7 +142,9 @@ export class GitHubLikeState {
     } });
     if (!SHA.test(tree.sha ?? '')) fail('LIKE_STATE_INVALID');
     const commit = await this.#request('/git/commits', { method: 'POST', body: {
-      message: 'Record automatic note patrol state', tree: tree.sha, parents: [parent],
+      // A standalone root keeps this history separate from application code
+      // and avoids deleting workflow files inherited from a main-branch tree.
+      message: 'Record automatic note patrol state', tree: tree.sha, parents: expectedRevision === null ? [] : [expectedRevision],
     } });
     if (!SHA.test(commit.sha ?? '')) fail('LIKE_STATE_INVALID');
     // A non-fast-forward update is rejected by GitHub. Never force or retry a
