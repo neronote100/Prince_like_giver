@@ -1,77 +1,34 @@
-# Prince Like Giver 🌙
+# 王子の手動スキ候補収集
 
-王子（note ID: `nero_notelover`）の条件に合う記事をGitHub Actionsで巡回し、**1回の実行につき1件まで、1日最大15件まで**スキを送るツールです。1日の区切りは日本時間です。Cloudflareの画面やスマホのログイン操作を使わず、登録済みの `NOTE_SESSION_COOKIE` を使います。
+スキは本人がnoteで押します。**自動スキのActionsジョブは削除しました。**
 
-## 自動巡回とスキ
+対象者を探すロジックと画面は [王子Comment Reader](https://github.com/neronote100/nero_comment_reader) に統合しました。このリポジトリは登録済みの認証を使って、Comment Readerの収集処理を実行します。新しいSecretやCloudflareの設定は不要です。
 
-GitHub Actionsの **Note patrol (one like per run)** が、毎時17分ごろに候補を取得し、その後 `auto-like` ジョブで送信します。手動実行と、対象ファイルが `main` に反映されたときも同じ処理を実行します。GitHub側の混雑によって定期実行が遅れる場合があります。
+## 使い方
 
-候補の条件は次のとおりです。
+1. [Comment Readerの「♡ スキ候補」](https://neronote100.github.io/nero_comment_reader/#like-candidates)を開きます。
+2. 最大30人の候補から記事を開き、note上で手動でスキします。
+3. 確認した記事には画面で「確認済み」を付けられます。この記録はブラウザ内に保存され、noteのスキ状態とは同期しません。
+4. 新しく探す場合は [Actions → Collect manual note candidates](https://github.com/neronote100/Prince_like_giver/actions/workflows/candidates.yml) の Run workflow を実行し、完了後に画面の「最新候補を表示」を押します。
 
-- フォロー数がフォロワー数より15%以上多く、10人以上の差がある
-- 既にフォロー・被フォローの関係がなく、その状態を確認できる
-- 最近30日以内の記事があり、最近の記事にスキ済みのものがない
-- スキ状態などの情報が不明な人は採用しない
-- 1回に調べた候補15人までから選び、送信直前にも本人アカウント・条件・記事・スキ状態を確認する
+毎時17分ごろにも候補を更新します。GitHub側の混雑で遅れる場合があります。収集はnoteへのGETのみで、スキ・フォロー・コメントの送信処理は呼びません。
 
-1回の実行で送るスキは最大1件です。日次上限の15件には、送信を試みて結果を確認できなかった分も含めます。大量送信、一括スキ、フォローやコメントの自動送信は行いません。
+## 候補の条件
 
-送信前に `automation/note-like-state` ブランチへ試行記録を書き、その保存を確認できた場合だけnoteへ送ります。同じ記事や同じ実行IDに対する再送はしません。通信結果が不明な記事は記録を残して止め、自動再送しません。送信先が401・403・429を返した場合も再送せず、24時間停止します。保存処理や認証を確認できないときも、その実行の送信を止めます。
+- 王子（nero_notelover）からフォローしておらず、相手からもフォローされていない
+- フォロー数がフォロワー数の1.15倍以上で、10人以上多い
+- 取得できた記事一覧の直近30日分に記事があり、その中に王子のスキ済み記事がない
+- 条件・スキ状態を確認できた人の最新記事を1件選ぶ
+- 最大450人から30人を目標に探す。条件は緩めず、不足した場合は実際の人数と取得状況を表示する
 
-候補取得と送信は同じワークフローの直列処理です。前の実行が終わる前に別の送信を重ねません。ブランチやPR上の **Patrol tests (no note actions)** はSecretを使わないテストのみを実行します。
+## 認証と公開データ
 
-## 設定と停止
+登録済みの Actions Secret NOTE_SESSION_COOKIE を収集ステップだけに渡します。Cookieをチャットやコードへ貼る必要はありません。値はログ・候補データへ出力しません。
 
-`Settings → Secrets and variables → Actions` に `NOTE_SESSION_COOKIE` を登録します。**登録済みで候補取得が成功している場合は、変更不要です。** 値をコード・Issue・チャットへ貼る必要はありません。
+公開候補は manual-candidates ブランチの data/like-candidates.json に保存されます。候補者名・公開記事URL・フォロー数などを含み、Comment Readerが読み込みます。認証制限、取得失敗による空結果、公開処理の失敗時は前回の一覧を保持します。
 
-記録の保存には、その実行にGitHubが発行する `GITHUB_TOKEN` を使います。自動スキのジョブだけに `contents: write` を与え、個人用アクセストークンやCloudflareのSecretを追加する必要はありません。
+## 停止
 
-止める場合は、ActionsのRepository variablesに次を設定します。
+Settings → Secrets and variables → Actions → Variables で DISABLE_CANDIDATE_DISCOVERY=true を設定すると収集を停止します。自動スキのジョブは存在しません。
 
-| 変数 | 値 | 動作 |
-| --- | --- | --- |
-| `DISABLE_AUTO_LIKES` | `true` | 候補取得を続け、スキの自動送信だけ停止 |
-| `DISABLE_CANDIDATE_DISCOVERY` | `true` | 候補取得と、それに続く自動送信を停止 |
-
-`false` または未設定で再開します。すぐに実行する場合は、**Actions → Note patrol (one like per run) → Run workflow** を使います。
-
-## 結果を見る
-
-Actionsの実行画面で、候補取得と送信結果の概要を確認できます。通常ログには、候補の具体的な名前・記事タイトル・URLや認証Cookieを出しません。
-
-候補一覧は、実行のArtifact **prince-candidate-review** に1日保存します。
-
-- `candidates.json`：候補15人までの情報
-- `candidate-review.html`：スマホ向けのコンパクトなレビュー画面
-- `mobile-15-preview.png`、`worker-like-preview.png`：ダミーデータによる画面検証画像
-
-HTMLの「記事↗」から記事を開けます。✓/×は手動の管理記録で、noteのスキ実績とは同期しません。ブラウザの `localStorage` に保存され、別のブラウザへの引き継ぎは保証しません。
-
-このリポジトリは公開されているため、Artifact内の候補情報や、状態ブランチの記事ID・実行ID・日時・結果は第三者が閲覧できる可能性があります。状態ブランチへ候補者名・記事タイトル・Cookieは保存しません。CookieをArtifactや生成HTMLへ埋め込む処理もありません。
-
-## 任意のWebレビュー画面
-
-既存のCloudflare Workerは、画面から本人が1件ずつスキするための別の選択肢です。GitHub Actionsによる自動送信には、このWorkerの配置は必要ありません。
-
-使う場合だけ、次のActions Secretを追加します。
-
-| Secret | 用途 |
-| --- | --- |
-| `CLOUDFLARE_API_TOKEN` | Workerのデプロイ権限を持つAPIトークン |
-| `CLOUDFLARE_ACCOUNT_ID` | CloudflareアカウントID |
-| `DASHBOARD_TOKEN` | 24文字以上のランダムな管理パスワード |
-
-Secretが揃うと、巡回時に `prince-like-review` Workerも配置します。足りない場合はWorker配置だけをスキップします。画面は `DASHBOARD_TOKEN` で認証し、各行の「♡ スキ」で1件だけ送信します。公開ZIP版のHTMLは記録専用です。
-
-## 制約と開発
-
-候補者は本人のフォロー先を起点に見つけた一部で、note全体を網羅しません。noteの非公式APIを使っているため、note側の仕様や制限によって取得・送信できなくなる場合があります。制限を避けるための再試行やランダム間隔による連続送信は行いません。
-
-開発用のテストは、実際の記事へスキを送らずに実行します。
-
-```sh
-npm install --no-save playwright-core@1.55.0
-npm test
-```
-
-ActionsではNode.js 24.19.0を使います。認証検証の **Verify note session**、フォロー情報を調べる **Probe note follow surface** も利用できます。
+収集と画面の実装・テストはComment Reader側で管理します。旧自動スキ関連のソースは履歴との互換性のため残っていますが、現在のworkflowからは実行しません。
