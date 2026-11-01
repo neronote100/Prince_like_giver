@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 concurrency:
   group: prince-manual-candidate-bridge
@@ -19,8 +20,8 @@ concurrency:
 jobs:
   collect:
     if: github.ref == 'refs/heads/main' && vars.DISABLE_CANDIDATE_DISCOVERY != 'true'
-    uses: neronote100/nero_comment_reader/.github/workflows/like-candidates.yml@c764dc8056ca35b9e49ab44c389095870e6881e1
+    uses: neronote100/nero_comment_reader/.github/workflows/like-candidates.yml@2f28860e695c69d4cc835dd6d36f89665518259f
     with:
-      source_ref: c764dc8056ca35b9e49ab44c389095870e6881e1
+      source_ref: 2f28860e695c69d4cc835dd6d36f89665518259f
     secrets:
       NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
