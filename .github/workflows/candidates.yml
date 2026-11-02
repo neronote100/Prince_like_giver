@@ -20,8 +20,8 @@ concurrency:
 jobs:
   collect:
     if: github.ref == 'refs/heads/main' && vars.DISABLE_CANDIDATE_DISCOVERY != 'true'
-    uses: neronote100/nero_comment_reader/.github/workflows/like-candidates.yml@67c01409c5b5a4b4408f69825805e27489c069e5
+    uses: neronote100/nero_comment_reader/.github/workflows/like-candidates.yml@2c12986e50a76a06cdcab042e29777e778d22995
     with:
-      source_ref: 67c01409c5b5a4b4408f69825805e27489c069e5
+      source_ref: 2c12986e50a76a06cdcab042e29777e778d22995
     secrets:
       NOTE_SESSION_COOKIE: ${{ secrets.NOTE_SESSION_COOKIE }}
