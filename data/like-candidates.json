@@ -1,20 +1,20 @@
 {
   "version": 1,
   "owner": "nero_notelover",
-  "generatedAt": "2026-11-06T00:21:43.533Z",
+  "generatedAt": "2026-11-06T07:59:35.358Z",
   "targetCount": 30,
   "complete": true,
   "reason": "target_reached",
   "rateLimited": false,
-  "requests": 424,
+  "requests": 373,
   "scannedSeedCount": 30,
   "pooledUsers": 450,
   "summary": {
-    "scanned": 261,
-    "already_liked": 64,
-    "existing_relationship_or_unknown": 97,
-    "insufficient_follow_gap": 59,
-    "inactive_30_days": 11,
+    "scanned": 228,
+    "already_liked": 47,
+    "existing_relationship_or_unknown": 84,
+    "insufficient_follow_gap": 57,
+    "inactive_30_days": 10,
     "unknown_like_state": 0,
     "unknown_articles": 0,
     "invalid_profile": 0,
@@ -22,15 +22,48 @@
   },
   "candidates": [
     {
-      "user": "win_horse_logic",
-      "name": "shoma×馬券師🐎勝ち馬ロジック",
-      "profileUrl": "https://note.com/win_horse_logic",
-      "following": 3965,
-      "followers": 3001,
-      "gap": 964,
-      "articleTitle": "【京王杯2歳S】最終追い切りで評価急上昇。全10頭を比較して見えた変化",
-      "publishedAt": "2026-11-05T23:00:00.000Z",
-      "articleUrl": "https://note.com/win_horse_logic/n/nfa57bd0e78fb",
+      "user": "brave_plover4038",
+      "name": "wacco",
+      "profileUrl": "https://note.com/brave_plover4038",
+      "following": 850,
+      "followers": 411,
+      "gap": 439,
+      "articleTitle": "ディスクロージャーデイ　「開示の日」以降の世界",
+      "publishedAt": "2026-10-20T14:14:41.000Z",
+      "articleUrl": "https://note.com/brave_plover4038/n/n2aa42d52b3e2",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "hono9556",
+        "akari_seaart"
+      ]
+    },
+    {
+      "user": "firm_prawn8531",
+      "name": "競艇3連単の極意！ 🚤 🔥",
+      "profileUrl": "https://note.com/firm_prawn8531",
+      "following": 13798,
+      "followers": 11595,
+      "gap": 2203,
+      "articleTitle": "11/7《下関開催》4点×3レース 🚤💥競艇3連単の極意！💰穴党💰【※関係者直通※】",
+      "publishedAt": "2026-11-06T03:31:17.000Z",
+      "articleUrl": "https://note.com/firm_prawn8531/n/n40127b427ab5",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "sessha"
+      ]
+    },
+    {
+      "user": "lofty_ruff7950",
+      "name": "🧜‍♀️🔱 競艇ポセイドン＜極3連単＞ 🌊🚤🔥",
+      "profileUrl": "https://note.com/lofty_ruff7950",
+      "following": 11223,
+      "followers": 9606,
+      "gap": 1617,
+      "articleTitle": "【11/7】⚠️ 下関 ⚠️厳選（10R〜12R）関係者直通ルート📡 荒波を越え、万舟を狙え！ 🚤🔥",
+      "publishedAt": "2026-11-06T03:38:43.000Z",
+      "articleUrl": "https://note.com/lofty_ruff7950/n/n3c781addc97c",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
@@ -38,28 +71,108 @@
       ]
     },
     {
-      "user": "hajimete_baken",
-      "name": "はじめての馬券｜AIと数字で、ずるく買う｜フォロバ100",
-      "profileUrl": "https://note.com/hajimete_baken",
-      "following": 947,
-      "followers": 412,
-      "gap": 535,
-      "articleTitle": "まだ、ダートで負けた馬の「芝替わり一変」を狙ってるの？",
-      "publishedAt": "2026-11-05T09:48:38.000Z",
-      "articleUrl": "https://note.com/hajimete_baken/n/n55bc69224387",
+      "user": "asagohan_system",
+      "name": "30年朝ごはん職人",
+      "profileUrl": "https://note.com/asagohan_system",
+      "following": 3827,
+      "followers": 2247,
+      "gap": 1580,
+      "articleTitle": "「【金曜の朝活】30年職人の無意識ルーティン！のんびり作っても自然と完成する「黄金の定番献立」と平日の35分自動化」",
+      "publishedAt": "2026-11-05T21:00:24.000Z",
+      "articleUrl": "https://note.com/asagohan_system/n/n884188721e4e",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
-        "rosanna_lips"
+        "hono9556"
+      ]
+    },
+    {
+      "user": "pure_sable9505",
+      "name": "ぽて子｜国家資格キャリアコンサルタント",
+      "profileUrl": "https://note.com/pure_sable9505",
+      "following": 1928,
+      "followers": 574,
+      "gap": 1354,
+      "articleTitle": "今この時代に生かされているという「幸運」。「生き直す」視点が、何を選び何を捨てるかをクリアにする",
+      "publishedAt": "2026-11-06T03:56:03.000Z",
+      "articleUrl": "https://note.com/pure_sable9505/n/n15a8370504ce",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "hono9556"
+      ]
+    },
+    {
+      "user": "gifted_finch4201",
+      "name": "プリン殿様",
+      "profileUrl": "https://note.com/gifted_finch4201",
+      "following": 2691,
+      "followers": 1586,
+      "gap": 1105,
+      "articleTitle": "ChatGPTの文章をそのまま使えないときに読む、頼み方と直し方の教科書",
+      "publishedAt": "2026-11-05T13:43:40.000Z",
+      "articleUrl": "https://note.com/gifted_finch4201/n/nf9519876df0a",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "akari_seaart"
+      ]
+    },
+    {
+      "user": "pika2note",
+      "name": "B型就労継続支援ピカピカ事業所|公式Note|記事担当ぴかるまこと",
+      "profileUrl": "https://note.com/pika2note",
+      "following": 1396,
+      "followers": 378,
+      "gap": 1018,
+      "articleTitle": "＃27 〜ピカある探訪記✧〜旅の栞√近江安土城編（三）小牧山｜稲荷の白狐から、伊賀越えへ",
+      "publishedAt": "2026-11-04T04:08:40.000Z",
+      "articleUrl": "https://note.com/pika2note/n/ncfb628f8929d",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "hono9556"
+      ]
+    },
+    {
+      "user": "setouchi_base",
+      "name": "瀬戸内ベース",
+      "profileUrl": "https://note.com/setouchi_base",
+      "following": 1333,
+      "followers": 586,
+      "gap": 747,
+      "articleTitle": "四国遍路トレイルガイド2026秋冬",
+      "publishedAt": "2026-11-03T23:36:38.000Z",
+      "articleUrl": "https://note.com/setouchi_base/n/na4d972c2104b",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "hono9556"
+      ]
+    },
+    {
+      "user": "ideal_oxalis9063",
+      "name": "鴨さん",
+      "profileUrl": "https://note.com/ideal_oxalis9063",
+      "following": 1209,
+      "followers": 583,
+      "gap": 626,
+      "articleTitle": "【VIVANT第23話】乃木家（奥出雲の櫻井家）に、 娘たちと行ったことがある。 ベキの生存も、良かった",
+      "publishedAt": "2026-11-02T04:53:37.000Z",
+      "articleUrl": "https://note.com/ideal_oxalis9063/n/n02d4634241a7",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "hono9556"
       ]
     },
     {
       "user": "yamashita_lapis",
       "name": "Lapis＠YAMASHITA",
       "profileUrl": "https://note.com/yamashita_lapis",
-      "following": 3218,
+      "following": 3250,
       "followers": 2724,
-      "gap": 494,
+      "gap": 526,
       "articleTitle": "Lapis Adamans ラピス・アダマンス　脚本版　第一章「覚醒」",
       "publishedAt": "2026-11-05T17:36:27.000Z",
       "articleUrl": "https://note.com/yamashita_lapis/n/n12c36c6409a9",
@@ -70,31 +183,31 @@
       ]
     },
     {
-      "user": "okazu_2026",
-      "name": "おかずぅ ( Banana Labo )",
-      "profileUrl": "https://note.com/okazu_2026",
-      "following": 2202,
-      "followers": 1794,
-      "gap": 408,
-      "articleTitle": "Meta の新AI「Muse」を調べ尽くした。結局、何を任せるのが正解?",
-      "publishedAt": "2026-11-05T22:00:00.000Z",
-      "articleUrl": "https://note.com/okazu_2026/n/na0938748ab7f",
+      "user": "peace_of_mind_3",
+      "name": "りぃ",
+      "profileUrl": "https://note.com/peace_of_mind_3",
+      "following": 1251,
+      "followers": 873,
+      "gap": 378,
+      "articleTitle": "何者かになりたい次男と、何者でもない母🤣",
+      "publishedAt": "2026-11-05T11:00:20.000Z",
+      "articleUrl": "https://note.com/peace_of_mind_3/n/n672b6d216f95",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
-        "rosanna_lips"
+        "hono9556"
       ]
     },
     {
-      "user": "natyu0120",
-      "name": "natyu@FX🌸フォロバ100",
-      "profileUrl": "https://note.com/natyu0120",
-      "following": 1246,
-      "followers": 964,
-      "gap": 282,
-      "articleTitle": "【FX初心者必読】プライスアクションとは？ローソク足から相場心理を読み解き、トレードに活かすための完全入門",
-      "publishedAt": "2026-10-19T06:16:03.000Z",
-      "articleUrl": "https://note.com/natyu0120/n/n23ed36fb2a2f",
+      "user": "kendama11",
+      "name": "谺剣二郎@ケンダマ",
+      "profileUrl": "https://note.com/kendama11",
+      "following": 653,
+      "followers": 376,
+      "gap": 277,
+      "articleTitle": "ハンターズムーン　月明かりで狩りをした満月と日本の十六夜",
+      "publishedAt": "2026-10-25T15:00:00.000Z",
+      "articleUrl": "https://note.com/kendama11/n/n0fae9b2cb02a",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
@@ -108,9 +221,9 @@
       "following": 1129,
       "followers": 881,
       "gap": 248,
-      "articleTitle": "蒸れないレディースブーツおすすめ8選【実測データ】",
-      "publishedAt": "2026-11-06T00:15:25.000Z",
-      "articleUrl": "https://note.com/best_lifestyle/n/ndceafd8a79c2",
+      "articleTitle": "スープジャーおすすめ8選【実測温度で選んだ】",
+      "publishedAt": "2026-11-06T07:45:09.000Z",
+      "articleUrl": "https://note.com/best_lifestyle/n/n5f935463f336",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
@@ -118,95 +231,15 @@
       ]
     },
     {
-      "user": "fxsougou",
-      "name": "FX総合アカデミー📚️フォロバ100",
-      "profileUrl": "https://note.com/fxsougou",
-      "following": 752,
-      "followers": 535,
-      "gap": 217,
-      "articleTitle": "【FX手法】平均足MTFトレード完全攻略｜利益を上げ続けるトレーダーになる為に",
-      "publishedAt": "2026-10-31T05:22:49.000Z",
-      "articleUrl": "https://note.com/fxsougou/n/n9a6dc0c62bc3",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "hono9556"
-      ]
-    },
-    {
-      "user": "re_melbourne",
-      "name": "豪州サバイバー",
-      "profileUrl": "https://note.com/re_melbourne",
-      "following": 290,
-      "followers": 98,
-      "gap": 192,
-      "articleTitle": "ワーホリ仕事探しの失敗原因！未経験でも即採用されるコツ",
-      "publishedAt": "2026-11-05T22:16:01.000Z",
-      "articleUrl": "https://note.com/re_melbourne/n/n55c836d8d664",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "hono9556"
-      ]
-    },
-    {
-      "user": "kaigo_talk",
-      "name": "今日の介護トーク",
-      "profileUrl": "https://note.com/kaigo_talk",
-      "following": 518,
-      "followers": 342,
-      "gap": 176,
-      "articleTitle": "園児から80代まで約400人！ 大分・豊の国YOSAKOIまつり",
-      "publishedAt": "2026-11-04T21:00:00.000Z",
-      "articleUrl": "https://note.com/kaigo_talk/n/n294030684dd8",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "akari_seaart"
-      ]
-    },
-    {
-      "user": "key_chan324",
-      "name": "kym.❤︎",
-      "profileUrl": "https://note.com/key_chan324",
-      "following": 555,
-      "followers": 382,
-      "gap": 173,
-      "articleTitle": "私は、悪い妻でいい。",
-      "publishedAt": "2026-10-23T12:00:15.000Z",
-      "articleUrl": "https://note.com/key_chan324/n/nd50dc1e84dea",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "rosanna_lips"
-      ]
-    },
-    {
-      "user": "brave_stork7698",
-      "name": "taka510",
-      "profileUrl": "https://note.com/brave_stork7698",
-      "following": 381,
+      "user": "ichilogi",
+      "name": "村岡　梨紗｜株式会社IchiLogi（ｲﾁﾛｼﾞ）代表取締役",
+      "profileUrl": "https://note.com/ichilogi",
+      "following": 428,
       "followers": 214,
-      "gap": 167,
-      "articleTitle": "Amazonスマイルセール、スタート！YouTube5チャンネルの紹介から選んだ家電・日用品12選【冬支度は「使う場面」で選ぶ】",
-      "publishedAt": "2026-11-04T09:26:25.000Z",
-      "articleUrl": "https://note.com/brave_stork7698/n/nb14bb55dfc15",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "rosanna_lips"
-      ]
-    },
-    {
-      "user": "safe_bobcat442",
-      "name": "もういちトレさん",
-      "profileUrl": "https://note.com/safe_bobcat442",
-      "following": 522,
-      "followers": 358,
-      "gap": 164,
-      "articleTitle": "休むことも、前に進むこと。内転筋を痛めた10月のトレーニング記録",
-      "publishedAt": "2026-11-03T09:33:52.000Z",
-      "articleUrl": "https://note.com/safe_bobcat442/n/n12a146146781",
+      "gap": 214,
+      "articleTitle": "語彙力がない人が多用する言葉を変換して会話を続ける方法",
+      "publishedAt": "2026-11-06T04:19:55.000Z",
+      "articleUrl": "https://note.com/ichilogi/n/nf157c034b48f",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
@@ -214,31 +247,15 @@
       ]
     },
     {
-      "user": "tsuyu_haigusa",
-      "name": "灰草 露（ハイグサ ツユ）",
-      "profileUrl": "https://note.com/tsuyu_haigusa",
-      "following": 387,
-      "followers": 235,
-      "gap": 152,
-      "articleTitle": "【番外編】美しい本に出会った。",
-      "publishedAt": "2026-10-18T23:39:57.000Z",
-      "articleUrl": "https://note.com/tsuyu_haigusa/n/n1be3fd77d602",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "rosanna_lips"
-      ]
-    },
-    {
-      "user": "next_garage",
-      "name": "NEXT  GARAGE",
-      "profileUrl": "https://note.com/next_garage",
-      "following": 248,
-      "followers": 109,
-      "gap": 139,
-      "articleTitle": "男の秘密基地",
-      "publishedAt": "2026-10-25T08:27:19.000Z",
-      "articleUrl": "https://note.com/next_garage/n/n03fa5203df0a",
+      "user": "nonco_coach",
+      "name": "のんこ｜ADHDさんの「生きづらさ」改善コーチ｜今だけフォロバ100",
+      "profileUrl": "https://note.com/nonco_coach",
+      "following": 367,
+      "followers": 160,
+      "gap": 207,
+      "articleTitle": "【自己紹介】ADHDグレーの私が「生きづらい」を克服して夢だったキラキラコンサルになれた話。",
+      "publishedAt": "2026-11-05T13:17:06.000Z",
+      "articleUrl": "https://note.com/nonco_coach/n/nfd1cbfabef06",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
@@ -246,47 +263,111 @@
       ]
     },
     {
-      "user": "long_puma1456",
-      "name": "鹿跳直矢",
-      "profileUrl": "https://note.com/long_puma1456",
+      "user": "haru8331",
+      "name": "寄り添いヒーラー＊haru｜実践20年以上・ココナラ販売3万件・プラチナランク",
+      "profileUrl": "https://note.com/haru8331",
+      "following": 1031,
+      "followers": 824,
+      "gap": 207,
+      "articleTitle": "頑張っているのに収入が増えない｜商売繁盛と金運、豊かさの流れを大切にしたいとき",
+      "publishedAt": "2026-11-04T10:45:11.000Z",
+      "articleUrl": "https://note.com/haru8331/n/n0db78538cd4e",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "akari_seaart"
+      ]
+    },
+    {
+      "user": "t_genyukaui",
+      "name": "吃音・どもりと生きるノート  豊橋言友会",
+      "profileUrl": "https://note.com/t_genyukaui",
+      "following": 448,
+      "followers": 249,
+      "gap": 199,
+      "articleTitle": "吃音の仲間と出会う、3地区合同例会を開催します",
+      "publishedAt": "2026-11-04T22:36:12.000Z",
+      "articleUrl": "https://note.com/t_genyukaui/n/n972a8c5a1703",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "akari_seaart"
+      ]
+    },
+    {
+      "user": "unicaria",
+      "name": "Uni",
+      "profileUrl": "https://note.com/unicaria",
       "following": 370,
-      "followers": 252,
-      "gap": 118,
-      "articleTitle": "掌編小説　報復",
-      "publishedAt": "2026-11-03T19:43:13.000Z",
-      "articleUrl": "https://note.com/long_puma1456/n/nb5c06b7cf012",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "potemushi"
-      ]
-    },
-    {
-      "user": "marunon_life",
-      "name": "marunon_life",
-      "profileUrl": "https://note.com/marunon_life",
-      "following": 304,
-      "followers": 189,
-      "gap": 115,
-      "articleTitle": "揚げ物の油、どう捨ててる？廃油回収を使ってわかったメリット｜処理の手間も費用も減りました！",
-      "publishedAt": "2026-11-05T00:52:50.000Z",
-      "articleUrl": "https://note.com/marunon_life/n/n0ddd75a28a0d",
+      "followers": 177,
+      "gap": 193,
+      "articleTitle": "USトークログ#13 - アメリカ文化の「6つの価値観」で振り返る",
+      "publishedAt": "2026-11-03T19:13:39.000Z",
+      "articleUrl": "https://note.com/unicaria/n/n2667fb4e9677",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
         "hono9556"
+      ]
+    },
+    {
+      "user": "clear_pony8556",
+      "name": "G.Giaso",
+      "profileUrl": "https://note.com/clear_pony8556",
+      "following": 309,
+      "followers": 148,
+      "gap": 161,
+      "articleTitle": "みつばち通信vol.42",
+      "publishedAt": "2026-11-01T01:33:00.000Z",
+      "articleUrl": "https://note.com/clear_pony8556/n/ncd5a1949146f",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "hono9556"
+      ]
+    },
+    {
+      "user": "kintore_ossan",
+      "name": "マッチョになりたい",
+      "profileUrl": "https://note.com/kintore_ossan",
+      "following": 412,
+      "followers": 259,
+      "gap": 153,
+      "articleTitle": "【建設業界×Grok Bot】",
+      "publishedAt": "2026-11-05T20:52:01.000Z",
+      "articleUrl": "https://note.com/kintore_ossan/n/n9102bed40b26",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "hono9556"
+      ]
+    },
+    {
+      "user": "matsuda_ahura",
+      "name": "松田油 | 🌏中東のちょっと面白い話🌎",
+      "profileUrl": "https://note.com/matsuda_ahura",
+      "following": 418,
+      "followers": 303,
+      "gap": 115,
+      "articleTitle": "【海外サッカー】テヘランの書店で遭遇したイランの謎トレカ『Kimdi』｜偽サイン・初期折り目・謎のDIYアクスタが織りなす独自文化",
+      "publishedAt": "2026-10-28T11:25:28.000Z",
+      "articleUrl": "https://note.com/matsuda_ahura/n/n17d19985839a",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "rosanna_lips"
       ]
     },
     {
       "user": "noted_frog8358",
       "name": "ほーりーまん",
       "profileUrl": "https://note.com/noted_frog8358",
-      "following": 340,
-      "followers": 243,
-      "gap": 97,
-      "articleTitle": "GMO問題とは一体何なのか？また原因や経過は？",
-      "publishedAt": "2026-11-04T17:24:12.000Z",
-      "articleUrl": "https://note.com/noted_frog8358/n/n592829e5acd8",
+      "following": 349,
+      "followers": 245,
+      "gap": 104,
+      "articleTitle": "NHKを巡る現状の課題、今後の経営戦略、およびそれに対する国民の意見の要約は以下の通りです。",
+      "publishedAt": "2026-11-06T00:44:35.000Z",
+      "articleUrl": "https://note.com/noted_frog8358/n/ncf4df8c8d04c",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
@@ -294,79 +375,111 @@
       ]
     },
     {
-      "user": "aging_crafting",
-      "name": "散星　逸",
-      "profileUrl": "https://note.com/aging_crafting",
-      "following": 287,
-      "followers": 194,
-      "gap": 93,
-      "articleTitle": "人間力を多層的新実存塾で考える──意味の場を縦横無尽に駆け巡れ",
-      "publishedAt": "2026-11-05T08:54:54.000Z",
-      "articleUrl": "https://note.com/aging_crafting/n/nc0f4c450607e",
+      "user": "komine",
+      "name": "Hijiri Komine",
+      "profileUrl": "https://note.com/komine",
+      "following": 180,
+      "followers": 79,
+      "gap": 101,
+      "articleTitle": "読書記録『天才はいない。天才になる習慣があるだけだ。』菅付雅信 – ダイヤモンド社【特殊効果演出道 4,214日目】",
+      "publishedAt": "2026-11-05T20:51:22.000Z",
+      "articleUrl": "https://note.com/komine/n/n4762c707a7ba",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
-        "rosanna_lips"
+        "hono9556"
       ]
     },
     {
-      "user": "easy_ram2615",
-      "name": "ちいさん",
-      "profileUrl": "https://note.com/easy_ram2615",
-      "following": 204,
-      "followers": 117,
-      "gap": 87,
-      "articleTitle": "ロスカットはなしで損失ゼロ！？ゼロロスカットポイントドル/円５分足トレード！？",
-      "publishedAt": "2026-11-03T19:10:02.000Z",
-      "articleUrl": "https://note.com/easy_ram2615/n/n51f57fd6cf4a",
+      "user": "lithe_deer2079",
+      "name": "ぴぴ⭐︎ぽぽねんねチャンネル",
+      "profileUrl": "https://note.com/lithe_deer2079",
+      "following": 254,
+      "followers": 155,
+      "gap": 99,
+      "articleTitle": "子どもが寝たあと、ようやく自分に戻れる時間。",
+      "publishedAt": "2026-11-06T03:55:32.000Z",
+      "articleUrl": "https://note.com/lithe_deer2079/n/nb8a980669e9a",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
-        "rosanna_lips"
+        "hono9556"
       ]
     },
     {
-      "user": "long_dietes7789",
-      "name": "影守公一",
-      "profileUrl": "https://note.com/long_dietes7789",
-      "following": 369,
-      "followers": 290,
-      "gap": 79,
-      "articleTitle": "華と修羅が日常 ― PRパーソンの告白｜第三十四話　できなかった謝罪",
-      "publishedAt": "2026-11-03T22:53:09.000Z",
-      "articleUrl": "https://note.com/long_dietes7789/n/nd6e070c82ae4",
+      "user": "afisogo",
+      "name": "アフィリエイト総合アカデミー✨フォロバ100",
+      "profileUrl": "https://note.com/afisogo",
+      "following": 471,
+      "followers": 372,
+      "gap": 99,
+      "articleTitle": "【アフィリエイト総合アカデミー・最終到達目標】全40章800項目の学習を実践力に変える｜15の到達目標と5段階の学習ロードマップで、収益化・事業化・自立を目指すための総まとめ",
+      "publishedAt": "2026-11-05T10:10:17.000Z",
+      "articleUrl": "https://note.com/afisogo/n/n646383fb6771",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
-        "rosanna_lips"
+        "hono9556"
       ]
     },
     {
-      "user": "misoshiru_pick",
-      "name": "みそしる｜暮らしのおすすめ",
-      "profileUrl": "https://note.com/misoshiru_pick",
-      "following": 321,
-      "followers": 256,
-      "gap": 65,
-      "articleTitle": "【PR】掃除用品のおすすめ 5 選｜毎日の掃除をラクにするもの",
-      "publishedAt": "2026-11-04T09:18:21.000Z",
-      "articleUrl": "https://note.com/misoshiru_pick/n/n269b1e5faf10",
+      "user": "super_loris4020",
+      "name": "ひとみ/大人の発達特性双子の母",
+      "profileUrl": "https://note.com/super_loris4020",
+      "following": 474,
+      "followers": 378,
+      "gap": 96,
+      "articleTitle": "発達特性の娘からのお金の要求。限界の私が徹底的に決めた3つの事。",
+      "publishedAt": "2026-11-05T05:17:56.000Z",
+      "articleUrl": "https://note.com/super_loris4020/n/ndcb744a8e9c3",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
-        "akari_seaart"
+        "hono9556"
       ]
     },
     {
-      "user": "miyu_designer",
-      "name": "みゆ＠物語オタクのデザイナー",
-      "profileUrl": "https://note.com/miyu_designer",
-      "following": 406,
-      "followers": 351,
-      "gap": 55,
-      "articleTitle": "初恋は、花火の夜に始まった①",
-      "publishedAt": "2026-11-05T07:51:29.000Z",
-      "articleUrl": "https://note.com/miyu_designer/n/n500478e2ecce",
+      "user": "marisato2009",
+      "name": "sachi",
+      "profileUrl": "https://note.com/marisato2009",
+      "following": 184,
+      "followers": 135,
+      "gap": 49,
+      "articleTitle": "我が家のセキセイインコ",
+      "publishedAt": "2026-11-04T07:26:33.000Z",
+      "articleUrl": "https://note.com/marisato2009/n/n39574452f71e",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "hono9556"
+      ]
+    },
+    {
+      "user": "nishin_herring",
+      "name": "🐟ニシンナス🍆",
+      "profileUrl": "https://note.com/nishin_herring",
+      "following": 251,
+      "followers": 205,
+      "gap": 46,
+      "articleTitle": "【神話系AI漫画】「太陽系家族」#9 その6",
+      "publishedAt": "2026-11-03T04:41:30.000Z",
+      "articleUrl": "https://note.com/nishin_herring/n/n1ef431b29fee",
+      "liked": false,
+      "status": "review_only",
+      "prioritySources": [
+        "hono9556"
+      ]
+    },
+    {
+      "user": "ifjuku",
+      "name": "ifjuku",
+      "profileUrl": "https://note.com/ifjuku",
+      "following": 96,
+      "followers": 66,
+      "gap": 30,
+      "articleTitle": "VOICEVOXで秋田RPG制作｜34語で声を直した",
+      "publishedAt": "2026-11-06T02:08:33.000Z",
+      "articleUrl": "https://note.com/ifjuku/n/n312b445ccfe7",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
@@ -374,131 +487,19 @@
       ]
     },
     {
-      "user": "kaisan_lab",
-      "name": "kai",
-      "profileUrl": "https://note.com/kaisan_lab",
-      "following": 264,
-      "followers": 212,
-      "gap": 52,
-      "articleTitle": "「貸した魔力はリボ払い」何が面白い？",
-      "publishedAt": "2026-11-04T23:46:52.000Z",
-      "articleUrl": "https://note.com/kaisan_lab/n/n0f20374c04eb",
+      "user": "life_89",
+      "name": "湿度を愛でる家  〜風を通し、しっかり殺菌。湿気と心地よく暮らす知恵〜",
+      "profileUrl": "https://note.com/life_89",
+      "following": 59,
+      "followers": 44,
+      "gap": 15,
+      "articleTitle": "その空き袋、捨てるの待った！毎日の生ごみを「完全無臭」にするポテチ袋活用術",
+      "publishedAt": "2026-11-05T15:52:04.000Z",
+      "articleUrl": "https://note.com/life_89/n/nb6b36c802971",
       "liked": false,
       "status": "review_only",
       "prioritySources": [
         "rosanna_lips"
-      ]
-    },
-    {
-      "user": "kato_hazime_11",
-      "name": "加藤元",
-      "profileUrl": "https://note.com/kato_hazime_11",
-      "following": 63,
-      "followers": 11,
-      "gap": 52,
-      "articleTitle": "◆ 裏話：加藤元（はじめ）の母・静（しず）の武勇伝",
-      "publishedAt": "2026-10-16T12:44:21.000Z",
-      "articleUrl": "https://note.com/kato_hazime_11/n/n02e1efb3870f",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "hono9556"
-      ]
-    },
-    {
-      "user": "ses_true",
-      "name": "ガロン山本の就職失敗談@後悔するSESを減らしたい",
-      "profileUrl": "https://note.com/ses_true",
-      "following": 166,
-      "followers": 115,
-      "gap": 51,
-      "articleTitle": "【就活/転職】ロースキル案件に配属されたらどんなことをするの？元SES筆者の実体験　2年目編",
-      "publishedAt": "2026-11-05T14:17:46.000Z",
-      "articleUrl": "https://note.com/ses_true/n/nedd1a0d5fb97",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "akari_seaart"
-      ]
-    },
-    {
-      "user": "yumeguridou",
-      "name": "夢廻灯堂",
-      "profileUrl": "https://note.com/yumeguridou",
-      "following": 330,
-      "followers": 286,
-      "gap": 44,
-      "articleTitle": "Lotus Core 第2部華蓮編 終話しました。",
-      "publishedAt": "2026-11-05T14:40:53.000Z",
-      "articleUrl": "https://note.com/yumeguridou/n/na3cf8bc530de",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "rosanna_lips"
-      ]
-    },
-    {
-      "user": "futari_kimekata",
-      "name": "まほ｜大人の心理学研究室（フォロバ100）",
-      "profileUrl": "https://note.com/futari_kimekata",
-      "following": 196,
-      "followers": 157,
-      "gap": 39,
-      "articleTitle": "誘われると気が重い。「応えたい」と「断れない」は、どこが違う？",
-      "publishedAt": "2026-11-01T12:59:23.000Z",
-      "articleUrl": "https://note.com/futari_kimekata/n/ncf99b073e86c",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "hono9556"
-      ]
-    },
-    {
-      "user": "hirame_megane",
-      "name": "ひらめ",
-      "profileUrl": "https://note.com/hirame_megane",
-      "following": 172,
-      "followers": 139,
-      "gap": 33,
-      "articleTitle": "その“知的な会話”、こっちは疲れています。初デートで見抜く！「Wikipedia男子」への7つの返し方と、2回目も会うかの判断基準",
-      "publishedAt": "2026-10-23T09:51:41.000Z",
-      "articleUrl": "https://note.com/hirame_megane/n/nddc3998d293e",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "rosanna_lips"
-      ]
-    },
-    {
-      "user": "quirky_sorrel896",
-      "name": "十面ダイス",
-      "profileUrl": "https://note.com/quirky_sorrel896",
-      "following": 37,
-      "followers": 11,
-      "gap": 26,
-      "articleTitle": "16歳未満のSNS、どうなんのかな②",
-      "publishedAt": "2026-11-05T22:57:21.000Z",
-      "articleUrl": "https://note.com/quirky_sorrel896/n/n81f635f5eb9a",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "hono9556"
-      ]
-    },
-    {
-      "user": "ossan_chato",
-      "name": "おっさんとチャト",
-      "profileUrl": "https://note.com/ossan_chato",
-      "following": 83,
-      "followers": 69,
-      "gap": 14,
-      "articleTitle": "第9話　ある日、ポンコツAIにファンレターが届いた。",
-      "publishedAt": "2026-11-04T11:02:24.000Z",
-      "articleUrl": "https://note.com/ossan_chato/n/ndf7e86898a9d",
-      "liked": false,
-      "status": "review_only",
-      "prioritySources": [
-        "hono9556"
       ]
     }
   ]
